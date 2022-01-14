@@ -17,8 +17,11 @@ class CreateTeacherTable extends Migration
             $table->id();
             $table->string('email');
             $table->string('password');
+            $table->integer('student_id');
+            $table->integer('point_id');
 
             $table->timestamps();
+
         });
     }
 

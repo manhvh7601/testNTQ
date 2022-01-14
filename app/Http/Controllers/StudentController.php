@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Point;
 use App\Models\Student;
 use Illuminate\Http\Request;
 
@@ -12,10 +13,16 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $student = Student::latest()->paginate(5);
-        return view('admin.student.index', compact('student'));
+        $listStudent = Student::latest()->paginate(5);
+        if($request->has('keyword') == true ){
+            $keyword = $request->get('keyword');
+            $listStudent = Student::where('fullname', 'LIKE', "%$keyword%")->paginate(5);
+        }else{
+            $listStudent = Student::latest()->paginate(5);
+        }
+        return view('admin.student.index', compact('listStudent'));
     }
 
     /**
@@ -25,7 +32,9 @@ class StudentController extends Controller
      */
     public function create()
     {
-        return view('admin.student.create');
+        $listPoint = Point::all();
+        
+        return view('admin.student.create', compact('listPoint'));
     }
 
     /**
@@ -41,21 +50,21 @@ class StudentController extends Controller
         if ($request->hasFile('avatar')) {
             $file = $request->file('avatar');
             $ext = $file->getClientOriginalExtension();
-            $fileName = time() . '.' . $ext;
-            $file->move(public_path('upload', $fileName));
-            $student->avatar = $fileName;
+            $filename = time() . '.' . $ext;
+            $file->move(public_path('upload'), $filename);
+            $student->avatar = $filename;
         }
         $data = [
             'fullname' => $request->fullname,
             'email' => $request->email,
             'age' => $request->age,
             'gender' => $request->gender,
-            'point' => $request->point,
-            'avatar' => $fileName,
+            'point_id' => $request->point_id,
+            'avatar' => $filename,
         ];
         // dd($data);
         Student::create($data);
-        return redirect()->route('admin.student.index');
+        return redirect()->route('showStudent');
     }
 
     /**
@@ -66,8 +75,8 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        $id = Student::find($id);
-        return view('admin.student.detail', compact('id'));
+        $student = Student::find($id);
+        return view('admin.student.detail', compact('student'));
     }
 
     /**
@@ -78,6 +87,10 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
+        $data = Student::find($id);
+        $listPoint = Point::all();
+        // $data->load('listPoint');
+        return view('admin.student.edit', compact('data', 'listPoint'));
     }
 
     /**
@@ -89,7 +102,25 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $student = new Student();
+
+        if ($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
+            $ext = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $ext;
+            $file->move(public_path('upload'), $filename);
+            $student->avatar = $filename;
+        }
+        $data = [
+            'fullname' => $request->fullname,
+            'email' => $request->email,
+            'age' => $request->age,
+            'gender' => $request->gender,
+            'avatar' => $filename,
+            'point_id'=>$request->point_id
+        ];
+        Student::find($id)->update($data);
+        return redirect()->route('showStudent');
     }
 
     /**
@@ -100,6 +131,7 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Student::find($id)->delete();
+        return redirect()->back();
     }
 }

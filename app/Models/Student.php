@@ -9,10 +9,14 @@ class Student extends Model
 {
     use HasFactory;
     protected $table = "student";
-    protected $fillable = ['fullname', 'email', 'age', 'gender', 'point', 'avatar'];
+    protected $fillable = ['fullname', 'email', 'age', 'point_id', 'gender', 'avatar'];
 
-    public function teacher(){
+    public function teacher()
+    {
         return $this->hasMany(Teacher::class, 'student_id', 'id');
     }
-    
+    public function point()
+    {
+        return $this->belongsTo(Point::class, 'point_id', 'id');
+    }
 }

@@ -20,10 +20,11 @@ class CreateStudentTable extends Migration
             $table->string('email');
             $table->integer('age');
             $table->string('gender');
-            $table->double('point');
+            $table->integer('point_id');
             $table->string('avatar')->nullable();
 
             $table->timestamps();
+
         });
     }
 
