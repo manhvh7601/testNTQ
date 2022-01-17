@@ -36,8 +36,14 @@ class StudentController extends Controller
         }else{
             $listStudent = Student::paginate(5);
         }
-
         
+        if($request->has('ageKeyword') == true ){
+            $ageKeyword = $request->get('ageKeyword');
+            $listStudent = Student::where('age', 'LIKE', "%$ageKeyword%")->paginate(5);
+        }else{
+            $listStudent = Student::paginate(5);
+        }
+
         return view('admin.student.index', compact('listStudent'));
     }
 

@@ -48,6 +48,13 @@
                         <input type="submit" value="Search" class="form-control btn btn-primary">
                     </form>
                 </div>
+                <div class="col-md-2">
+                    <form method="get">
+                        <input class="form-control" type="number" name="ageKeyword"
+                            value="{{ old('ageKeyword') }}" placeholder="Search for age" min="18">
+                        <input type="submit" value="Search" class="form-control btn btn-primary">
+                    </form>
+                </div>
             </div>
         </div>
         <div class="col-md-2">
