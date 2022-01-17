@@ -16,20 +16,27 @@ class StudentController extends Controller
     public function index(Request $request)
     {
         $listStudent = Student::paginate(5);
-
         if($request->has('nameKeyword') == true ){
             $nameKeyword = $request->get('nameKeyword');
             $listStudent = Student::where('fullname', 'LIKE', "%$nameKeyword%")->paginate(5);
         }else{
             $listStudent = Student::paginate(5);
         }
-
+        
         if($request->has('emailKeyword') == true ){
             $emailKeyword = $request->get('emailKeyword');
             $listStudent = Student::where('email', 'LIKE', "%$emailKeyword%")->paginate(5);
         }else{
             $listStudent = Student::paginate(5);
         }
+        
+        if($request->has('genderKeyword') == true ){
+            $genderKeyword = $request->get('genderKeyword');
+            $listStudent = Student::where('gender', 'LIKE', "%$genderKeyword%")->paginate(5);
+        }else{
+            $listStudent = Student::paginate(5);
+        }
+
         
         return view('admin.student.index', compact('listStudent'));
     }

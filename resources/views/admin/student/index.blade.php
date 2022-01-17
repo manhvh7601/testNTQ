@@ -41,8 +41,10 @@
                 </div>
                 <div class="col-md-2">
                     <form method="get">
-                        <input class="form-control" type="text" name="genderKeyword"
-                            value="{{ old('genderKeyword') }}" placeholder="Search for gender">
+                        <select name="genderKeyword" class="form-control">
+                            <option value="0">Male</option>
+                            <option value="1">Female</option>
+                        </select>
                         <input type="submit" value="Search" class="form-control btn btn-primary">
                     </form>
                 </div>
