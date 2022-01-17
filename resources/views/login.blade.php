@@ -14,7 +14,7 @@
 
 <body>
     <div class="form-login">
-        <form action="{{ route('loginForm') }}" method="post">
+        <form action="{{ route('postLogin') }}" method="post">
             @csrf
             <div>
                 <input type="email" name="email" value="{{ old('email') }}" placeholder="Email">
@@ -26,6 +26,16 @@
                 <input type="submit" value="LOGIN" class="btn btn-primary">
             </div>
         </form>
+        @if (session()->get('success'))
+        <div class="alert alert-success alert-dismissible">
+                {{ session()->get('success') }}
+            </div>
+        @endif
+        @if (session()->get('error'))
+            <span class="text-danger">
+                {{ session()->get('error') }}
+            </span>
+        @endif
     </div>
 
     <!-- Optional JavaScript -->

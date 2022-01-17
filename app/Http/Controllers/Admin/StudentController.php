@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Point;
 use App\Models\Student;
 use Illuminate\Http\Request;
@@ -16,31 +17,19 @@ class StudentController extends Controller
     public function index(Request $request)
     {
         $listStudent = Student::paginate(5);
-        if($request->has('nameKeyword') == true ){
+        if ($request->has('nameKeyword') == true) {
             $nameKeyword = $request->get('nameKeyword');
             $listStudent = Student::where('fullname', 'LIKE', "%$nameKeyword%")->paginate(5);
-        }else{
-            $listStudent = Student::paginate(5);
-        }
-        
-        if($request->has('emailKeyword') == true ){
+        } else if ($request->has('emailKeyword') == true) {
             $emailKeyword = $request->get('emailKeyword');
             $listStudent = Student::where('email', 'LIKE', "%$emailKeyword%")->paginate(5);
-        }else{
-            $listStudent = Student::paginate(5);
-        }
-        
-        if($request->has('genderKeyword') == true ){
+        } else if ($request->has('genderKeyword') == true) {
             $genderKeyword = $request->get('genderKeyword');
             $listStudent = Student::where('gender', 'LIKE', "%$genderKeyword%")->paginate(5);
-        }else{
-            $listStudent = Student::paginate(5);
-        }
-        
-        if($request->has('ageKeyword') == true ){
+        } else if ($request->has('ageKeyword') == true) {
             $ageKeyword = $request->get('ageKeyword');
             $listStudent = Student::where('age', 'LIKE', "%$ageKeyword%")->paginate(5);
-        }else{
+        } else {
             $listStudent = Student::paginate(5);
         }
 
@@ -55,7 +44,7 @@ class StudentController extends Controller
     public function create()
     {
         $listPoint = Point::all();
-        
+
         return view('admin.student.create', compact('listPoint'));
     }
 
@@ -139,7 +128,7 @@ class StudentController extends Controller
             'age' => $request->age,
             'gender' => $request->gender,
             'avatar' => $filename,
-            'point_id'=>$request->point_id
+            'point_id' => $request->point_id
         ];
         Student::find($id)->update($data);
         return redirect()->route('showStudent');

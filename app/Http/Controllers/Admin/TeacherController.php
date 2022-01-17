@@ -8,25 +8,30 @@ use Illuminate\Support\Facades\Auth;
 
 class TeacherController extends Controller
 {
-    public function getLoginForm() {
+    public function getLogin()
+    {
         return view('login');
     }
-    public function loginForm(Request $request){
-        $data = $request->only([
-            'email', 'password'
+    public function postLogin(Request $request)
+    {
+        $data = ([
+            'email'=>$request->email,
+            'password'=>$request->password
         ]);
         $result = Auth::attempt($data);
 
-        if($result == false){
+        if($result){
+            dd($result);
+            session()->flash('success', 'Login Complete');
+            return redirect()->route('showStudent'); 
+        }else{
             session()->flash('error', 'Sai email hoac password');
             return back();
-        }else{
-            Auth::attempt($data);
         }
-        dd($result);
-        return redirect()->route('showStudent');
+
     }
-    public function logout(Request $request){
+    public function getLogout()
+    {
         Auth::logout();
         return view('welcome');
     }

@@ -1,9 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\TeacherController;
-use App\Http\Controllers\PointController;
-use App\Http\Controllers\StudentController;
-use App\Models\Student;
+use App\Http\Controllers\Admin\PointController;
+use App\Http\Controllers\Admin\StudentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,14 +31,12 @@ Route::put('/admin/students/update/{id}', [StudentController::class, 'update'])-
 Route::delete('/admin/students/delete/{id}', [StudentController::class, 'destroy'])->name('deleteStudent');
 // End student
 
-
-// Point
-Route::get('/admin/point/create', [PointController::class, 'create'])->name('createPoint');
-Route::post('/admin/point/store', [PointController::class, 'store'])->name('storePoint');
-
-//end point
 // Teacher
-Route::get('/login', [TeacherController::class, 'getLoginForm'])->name('loginForm');
-Route::post('/postlogin', [TeacherController::class], 'loginForm')->name('loginForm');
-Route::post('/logout', [TeacherController::class, 'logout'])->name('logout');
+Route::get('/getlogin', [TeacherController::class, 'getLogin'])->name('getLogin');
+Route::post('/postlogin', [TeacherController::class, 'postLogin'])->name('postLogin');
+Route::get('/getlogout', [TeacherController::class, 'getLogout'])->name('getLogout');
 // End Teacher
+
+Route::get('/haspass', function () {
+    return md5('gvfresher');
+});

@@ -50,8 +50,8 @@
                 </div>
                 <div class="col-md-2">
                     <form method="get">
-                        <input class="form-control" type="number" name="ageKeyword"
-                            value="{{ old('ageKeyword') }}" placeholder="Search for age" min="18">
+                        <input class="form-control" type="number" name="ageKeyword" value="{{ old('ageKeyword') }}"
+                            placeholder="Search for age" min="18">
                         <input type="submit" value="Search" class="form-control btn btn-primary">
                     </form>
                 </div>
@@ -90,29 +90,26 @@
                         <td scope="col">{{ $loop->iteration }}</td>
                         <td scope="col">{{ $st->fullname }}</td>
                         <td scope="col">{{ $st->email }}</td>
-                        <td scope="col">{{ $st->gender == 0 ? 'Nam' : 'Nu' }} </td>
+                        <td scope="col">{{ $st->gender == 0 ? 'Nam' : 'Nữ' }} </td>
                         <td scope="col">{{ $st->age }} </td>
                         <td scope="col">{{ $st->point->point }}</td>
                         <td scope="col"><img src="{{ asset('upload/' . $st->avatar) }}" width="100px" height="100px">
                         </td>
                         <td scope="col">
                             <div class="row">
-                                <div class="col-md-2">
+                                <div class="col">
                                     <a href="{{ route('detailStudent', ['id' => $st->id]) }}"
                                         class="btn btn-info">Detail</a>
-                                </div>
-                                <div class="col-md-2"><a href="{{ route('editStudent', ['id' => $st->id]) }}"
+                                    <a href="{{ route('editStudent', ['id' => $st->id]) }}"
                                         class="btn btn-primary">Edit</a>
                                 </div>
-                                <div class="col-md-2">
-                                    <form action="{{ route('deleteStudent', ['id' => $st->id]) }}" method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <input type="submit" value="DELETE" onclick="return confirm('Are you sure?')"
-                                            class="btn btn-danger">
-                                    </form>
-                                </div>
                             </div>
+                            <form action="{{ route('deleteStudent', ['id' => $st->id]) }}" method="post">
+                                @csrf
+                                @method('delete')
+                                <input type="submit" value="DELETE" onclick="return confirm('Are you sure?')"
+                                    class="btn btn-danger">
+                            </form>
                         </td>
                     </tr>
                 @endforeach
